@@ -106,6 +106,7 @@ const App: React.FC = () => {
   const [showReadMoreModal, setShowReadMoreModal] = useState(false);
   const [selectedUserForReadMore, setSelectedUserForReadMore] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [paginationMessage, setPaginationMessage] = useState('');
 
   const handleStartChat = (user: User) => {
     setSelectedUser(user);
@@ -136,8 +137,11 @@ const App: React.FC = () => {
   const handlePaginationClick = (page: number) => {
     if (page === 1) {
         setCurrentPage(1);
+        setPaginationMessage('');
     } else {
-        alert('More content is coming in the future. This is a prototype.');
+        const message = 'More content is coming in the future. This is a prototype.';
+        setPaginationMessage(message);
+        setTimeout(() => setPaginationMessage(''), 4000); // Hide after 4 seconds
     }
   };
 
@@ -207,26 +211,33 @@ const App: React.FC = () => {
               {renderContent()}
             </div>
             { (activeTab === 'student' || activeTab === 'ai_ambassador') &&
-              <div className="mt-8 flex justify-center items-center space-x-2">
-                {[1, 2, 3, 4, 5].map(page => (
-                  <button
-                    key={page}
-                    onClick={() => handlePaginationClick(page)}
-                    className={`w-8 h-8 rounded border transition-colors ${
-                      currentPage === page
-                        ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-                    }`}
+              <div className="mt-8 flex flex-col items-center justify-center">
+                <div className="flex space-x-2">
+                  {[1, 2, 3, 4, 5].map(page => (
+                    <button
+                      key={page}
+                      onClick={() => handlePaginationClick(page)}
+                      className={`w-8 h-8 rounded border transition-colors ${
+                        currentPage === page
+                          ? 'bg-blue-600 text-white border-blue-600'
+                          : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  <button 
+                    onClick={() => handlePaginationClick(currentPage + 1)}
+                    className="w-8 h-8 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
                   >
-                    {page}
+                    {'>'}
                   </button>
-                ))}
-                <button 
-                  onClick={() => handlePaginationClick(currentPage + 1)}
-                  className="w-8 h-8 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
-                >
-                  {'>'}
-                </button>
+                </div>
+                {paginationMessage && (
+                  <p className="mt-4 text-sm text-orange-700 bg-orange-100 border border-orange-200 rounded-md px-4 py-2 transition-opacity duration-300">
+                    {paginationMessage}
+                  </p>
+                )}
               </div>
             }
           </div>

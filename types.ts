@@ -24,4 +24,5 @@ export interface Message {
   timestamp: string;
   mailtoLink?: string;
   pdfGenerator?: () => void;
+  applyInfo?: { phone: string; note: string; };
 }

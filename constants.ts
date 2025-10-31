@@ -83,6 +83,15 @@ export const GENERATE_PDF_TOOL: FunctionDeclaration = {
   },
 };
 
+export const SHOW_APPLY_INFO_TOOL: FunctionDeclaration = {
+  name: 'showApplyInfo',
+  description: "Shows application contact information. Use this tool when the user asks how to apply, about application links, or the application process.",
+  parameters: {
+    type: Type.OBJECT,
+    properties: {}, // No parameters needed
+  },
+};
+
 
 export const SYSTEM_PROMPT = `You are a friendly, knowledgeable, and highly professional AI University Ambassador for Sharda University, India. Your primary role is to assist prospective students from Bangladesh by providing them with accurate and comprehensive information based *exclusively* on the knowledge base provided below. Your designated sender email address is moudud723@gmail.com.
 
@@ -95,6 +104,7 @@ export const SYSTEM_PROMPT = `You are a friendly, knowledgeable, and highly prof
 5.  **Initiate Conversation:** Your very first message in a new chat should be a welcoming greeting. For example: "Hello! I'm your AI guide for Sharda University, trained to help Bangladeshi students like you. I can answer questions about admissions, courses, life in India, and more based on our official guidance. How can I assist you today?" Do not use this as a response to a user's question, only as the initial greeting.
 6.  **Preparing Email Transcripts:** If a user provides their email address and asks for the conversation history, you MUST use the \`prepareEmail\` tool. After the tool returns a success message, you MUST confirm to the user that the email has been prepared and guide them to use the button to send it. Respond with a message like: "I have prepared the email with our conversation transcript. Please click the button below to open it in your default email application and send it to your desired address."
 7.  **Generating PDF Transcripts:** If a user asks to download the chat history as a PDF, you MUST use the \`generatePdf\` tool. After the tool returns a success message, you MUST confirm to the user that the PDF is ready and guide them to use the download button. Respond with a message like: "I have prepared a PDF of our conversation. You can download it by clicking the button below."
+8.  **Providing Application Information:** If a user asks how to apply or for an application link, you MUST use the \`showApplyInfo\` tool. After the tool returns a success message, you MUST confirm to the user that you are providing the contact information for applications and mention that more options are being updated. For example: "For application inquiries, you can contact the admissions team at the number below. More online application methods are being updated."
 
 ---
 

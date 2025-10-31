@@ -166,6 +166,27 @@ const ChatView: React.FC<ChatViewProps> = ({ user, onBack }) => {
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
             localStorage.setItem(`chatHistory_${user.id}`, JSON.stringify(finalMessages));
+        } else if (fc.name === 'showApplyInfo') {
+            const functionResponse: Part = {
+                functionResponse: {
+                    name: 'showApplyInfo',
+                    response: { success: true, message: 'Application info displayed.' },
+                },
+            };
+            const finalResponse = await geminiService.sendFunctionResponse(functionResponse);
+            const aiMessage: Message = {
+                id: (Date.now() + 2).toString(),
+                text: finalResponse.text,
+                sender: 'ai',
+                timestamp: new Date().toISOString(),
+                applyInfo: {
+                    phone: '+919910017793',
+                    note: 'For more details, please contact this number. More application options are being updated.'
+                },
+            };
+            const finalMessages = [...updatedMessages, aiMessage];
+            setMessages(finalMessages);
+            localStorage.setItem(`chatHistory_${user.id}`, JSON.stringify(finalMessages));
         }
 
       } else {
@@ -223,6 +244,13 @@ const ChatView: React.FC<ChatViewProps> = ({ user, onBack }) => {
                 }`}
               >
                   <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                  {message.applyInfo && (
+                    <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="font-semibold text-sm text-blue-800">Application Contact:</p>
+                        <p className="text-blue-700 text-sm mt-1">Phone: <a href={`tel:${message.applyInfo.phone}`} className="font-bold underline">{message.applyInfo.phone}</a></p>
+                        <p className="text-blue-600 text-xs mt-2">{message.applyInfo.note}</p>
+                    </div>
+                  )}
                   {message.mailtoLink && (
                     <a
                       href={message.mailtoLink}
