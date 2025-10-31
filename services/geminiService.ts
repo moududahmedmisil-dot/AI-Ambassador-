@@ -1,5 +1,5 @@
 import { GoogleGenAI, Chat, GenerateContentResponse, Part } from "@google/genai";
-import { SYSTEM_PROMPT, PREPARE_EMAIL_TOOL, GENERATE_PDF_TOOL, SHOW_APPLY_INFO_TOOL } from '../constants';
+import { SYSTEM_PROMPT, PREPARE_EMAIL_TOOL, GENERATE_PDF_TOOL } from '../constants';
 
 const API_KEY = process.env.API_KEY;
 
@@ -17,7 +17,7 @@ class GeminiService {
       model: 'gemini-2.5-flash',
       config: {
         systemInstruction: SYSTEM_PROMPT,
-        tools: [{ functionDeclarations: [PREPARE_EMAIL_TOOL, GENERATE_PDF_TOOL, SHOW_APPLY_INFO_TOOL] }],
+        tools: [{ functionDeclarations: [PREPARE_EMAIL_TOOL, GENERATE_PDF_TOOL] }],
       },
     });
   }
